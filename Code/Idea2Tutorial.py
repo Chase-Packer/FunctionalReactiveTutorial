@@ -9,6 +9,90 @@ import reactivex
 from reactivex.scheduler import ThreadPoolScheduler
 from reactivex import operators as op
 
+
+'''
+Code for creating pool_scheduler from https://rxpy.readthedocs.io/en/latest/get_started.html#operators-and-chaining
+'''
+optimal_thread_count = multiprocessing.cpu_count()
+pool_scheduler = ThreadPoolScheduler(optimal_thread_count)
+
+def createUserName():
+
+    return random.choice(nouns) + str(random.randint(0, 999)) + random.choice(nouns)
+
+
+def simulatewait(x):
+
+    time.sleep(random.randint(5, 15) * 0.1)
+    return x
+
+
+def noBadWords():
+    pass
+
+
+def noPrimeNumbers():
+    pass
+
+
+'''
+Activity 1:
+
+This Activity is done for you, use this as a guide for the others
+'''
+reactivex.range(0, 100).pipe(
+    op.map(lambda b: simulatewait(b)), op.subscribe_on(pool_scheduler)
+).subscribe( 
+    on_next = lambda a: print("Activity 2: " + str(a)),
+    on_error = lambda e: print(e),
+    on_completed = lambda: print("Done")
+)
+
+'''
+Activity 2:
+
+
+'''
+reactivex.range(0, 100).pipe(
+    op.map(lambda b: simulatewait(b)), op.subscribe_on(pool_scheduler)
+).subscribe( 
+    on_next = lambda a: print("Activity 2: " + str(a)),
+    on_error = lambda e: print(e),
+    on_completed = lambda: print("Done")
+)
+
+def fizzBuzz(num):
+
+    if num % 3 == 0 and num % 5 == 0:
+        return "Fizzbuzz"
+    elif num % 3 == 0:
+        return "Fizz"
+    elif num % 5 == 0:
+        return "Buzz"
+    else:
+        return num
+
+    
+'''
+Activity 3: Fizzbuzz
+
+
+
+'''
+reactivex.range(0, 100).pipe(
+    op.map(lambda a: fizzBuzz(a)), op.map(lambda b: simulatewait(b)), op.subscribe_on(pool_scheduler)
+).subscribe(
+    on_next = lambda a: print("Activity 3: " + str(a)),
+    on_error = lambda e: print(e),
+    on_completed = lambda: print("Done")
+)
+
+
+'''
+Activity 4: Username Filtering
+
+'''
+
 nouns = [
     "apple", "ball", "cat", "dog", "elephant", "flower", "guitar", "hat", "igloo", "jacket",
     "kite", "lemon", "mountain", "notebook", "ocean", "pencil", "quilt", "rabbit", "sun", "tree",
@@ -43,82 +127,13 @@ bad_words = ["umbrella", "xylophone", "narwhal", "hammer", "flamingo", "quill", 
 user_names = []
 
 
-'''
-Code for creating pool_scheduler from https://rxpy.readthedocs.io/en/latest/get_started.html#operators-and-chaining
-'''
-optimal_thread_count = multiprocessing.cpu_count()
-pool_scheduler = ThreadPoolScheduler(optimal_thread_count)
-
-def createUserName():
-
-    time.sleep(random.randint(10, 50) * 0.1)
-
-    return random.choice(nouns) + str(random.randint(0, 999)) + random.choice(nouns)
-
-
-def noBadWords():
-    pass
-
-
-def noPrimeNumbers():
-    pass
-
-
-
 reactivex.range(0, 100).pipe(
-    op.map(lambda a: createUserName()), op.filter(lambda a: " " not in a), op.subscribe_on(pool_scheduler)
+    op.map(lambda a: createUserName()), op.map(lambda b: simulatewait(b)), op.subscribe_on(pool_scheduler)
 ).subscribe( 
-    on_next = lambda a: print("Activity 1: Created Username " + a),
-    on_error = lambda e: print(e),
-    on_completed = lambda: print("Done")
-
-)
-
-
-reactivex.range(0, 100).pipe(
-    op.map(lambda a: createUserName()), op.filter(lambda a: " " not in a), op.subscribe_on(pool_scheduler)
-).subscribe(
-    on_next = lambda a: print("Activity 2: Created Username " + a),
-    on_error = lambda e: print(e),
-    on_completed = lambda: print("Done")
-
-)
-
-reactivex.range(0, 100).pipe(
-    op.map(lambda a: createUserName()), op.filter(lambda a: " " not in a), op.subscribe_on(pool_scheduler)
-).subscribe(
-    on_next = lambda a: print("Activity 3: Created Username " + a),
-    on_error = lambda e: print(e),
-    on_completed = lambda: print("Done")
-
-)
-
-
-def simulatewait(x):
-
-    time.sleep(random.randint(10, 50) * 0.1)
-    return x
-
-
-def fizzBuzz(num):
-
-    if num % 3 == 0 and num % 5 == 0:
-        return "Fizzbuzz"
-    elif num % 3 == 0:
-        return "Fizz"
-    elif num % 5 == 0:
-        return "Buzz"
-    else:
-        return num
-
-    
-#Fizzbuzz
-reactivex.range(0, 100).pipe(
-    op.map(lambda a: fizzBuzz(a)), op.map(lambda b: simulatewait(b)), op.subscribe_on(pool_scheduler)
-).subscribe(
-    on_next = lambda a: print("Activity 4: " + str(a)),
+    on_next = lambda a: print("Activity 4: Accepted Username " + a),
     on_error = lambda e: print(e),
     on_completed = lambda: print("Done")
 )
+
 
 
