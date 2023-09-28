@@ -27,14 +27,6 @@ def simulatewait(x):
     return x
 
 
-def noBadWords():
-    pass
-
-
-def noPrimeNumbers():
-    pass
-
-
 '''
 Activity 1:
 
@@ -49,7 +41,7 @@ reactivex.range(0, 100).pipe(
 )
 
 '''
-Activity 2:
+Activity 2: Functional Vs non-Functional - Finding Palindromes
 
 
 '''
@@ -61,6 +53,24 @@ reactivex.range(0, 100).pipe(
     on_completed = lambda: print("Done")
 )
 
+  
+'''
+Activity 3: Fizzbuzz
+
+Fizzbuzz is a game (and sterotypical programming test) where you count numbers from 1- n (100 in this case),
+except:
+    When a number is divisible by 3, you instead say "Fizz"
+    When a number is divisible by 5, you instead say "Buzz"
+    When a number is divisible by both 3 and 5, you say "FizzBuzz"
+
+
+Ex) 1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, FizzBuzz
+
+
+The intial stream are numbers 1 to 100.  Implement the game fizzbuzz with this datastream.
+
+'''
+
 def fizzBuzz(num):
 
     if num % 3 == 0 and num % 5 == 0:
@@ -71,15 +81,9 @@ def fizzBuzz(num):
         return "Buzz"
     else:
         return num
-
     
-'''
-Activity 3: Fizzbuzz
 
-
-
-'''
-reactivex.range(0, 100).pipe(
+reactivex.range(1, 100).pipe(
     op.map(lambda a: fizzBuzz(a)), op.map(lambda b: simulatewait(b)), op.subscribe_on(pool_scheduler)
 ).subscribe(
     on_next = lambda a: print("Activity 3: " + str(a)),
@@ -90,6 +94,20 @@ reactivex.range(0, 100).pipe(
 
 '''
 Activity 4: Username Filtering
+
+Imagine you are starting up a social media site, and users are creating their accounts and attempting to create
+their usernames.  But, we can't just let them name themselves whatever we want.
+
+In this activity, you will add various filters along with function creating the username that will remove usernames
+that cannot be accepted.
+
+The things you must filter for are:
+-names must not contain spaces
+-names cannot contain "bad words", as specified in the below list
+-names cannot contain a prime number
+
+
+Further, Any functions you create for this activity must adhere to Functional programming principles
 
 '''
 
