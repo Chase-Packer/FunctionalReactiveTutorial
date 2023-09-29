@@ -104,7 +104,7 @@ The following code will sort our data stream, removing prohibited names and name
 player_stream = names.pipe(
     op.filter(lambda n : (n not in prohibited_names) and (not isPalindrome(n)))
 )
-# After filtering, player_stream should have 6 items
+# After filtering, player_stream should have 7 items
 ```
 
 ## Assigning Teams
